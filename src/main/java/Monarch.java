@@ -2,14 +2,17 @@ import java.util.Scanner;
 
 public class Monarch {
     static String END_LINE = "\t____________________________________________________________";
+    static String[] strArr = new String[100];
+    static int index = 0;
 
     /**
      * The core program
      * @since Level-1
      */
     public static void program() {
+        Scanner scanObj = new Scanner(System.in);
+
         while (true) {
-            Scanner scanObj = new Scanner(System.in);
             String userInput = scanObj.nextLine();
             System.out.println(END_LINE);
 
@@ -19,9 +22,25 @@ public class Monarch {
                     // Set exit flag
                     break;
 
+                case "list":
+                    // Return all inputs
+                    for (int i = 0; i < strArr.length; i ++) {
+                        if (strArr[i] == null) {
+                            break;
+                        }
+                        else {
+                            String msg = String.format("%d. %s", i + 1, strArr[i]);
+                            System.out.println("\t" + msg);
+                        }
+                    }
+                    System.out.println(END_LINE);
+                    break;
+
                 default:
                     // Default case
-                    System.out.println(userInput + "\n" + END_LINE);
+                    strArr[index] = userInput;
+                    index += 1;
+                    System.out.println("\tadded: " + userInput + "\n" + END_LINE);
             }
 
             // Exit program
