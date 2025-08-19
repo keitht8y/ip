@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Monarch {
     static String END_LINE = "\t____________________________________________________________";
-    static String[] strArr = new String[100];
+    static Task[] taskArr = new Task[100];
     static int index = 0;
 
     /**
@@ -24,12 +24,12 @@ public class Monarch {
 
                 case "list":
                     // Return all inputs
-                    for (int i = 0; i < strArr.length; i ++) {
-                        if (strArr[i] == null) {
+                    for (int i = 0; i < taskArr.length; i ++) {
+                        if (taskArr[i] == null) {
                             break;
                         }
                         else {
-                            String msg = String.format("%d. %s", i + 1, strArr[i]);
+                            String msg = String.format("%d. %s", i + 1, taskArr[i].toString());
                             System.out.println("\t" + msg);
                         }
                     }
@@ -37,10 +37,30 @@ public class Monarch {
                     break;
 
                 default:
+                    // Check for 'mark'
+                    String[] temp = userInput.split(" ");
+                    if (temp.length > 1) {
+                        if (temp[0].equals("mark")) {
+                            taskArr[Integer.parseInt(temp[1]) - 1].markAsDone();
+                            System.out.println("\tNice! I've marked this task as done:\n"
+                                    + "\t\t" + taskArr[Integer.parseInt(temp[1]) - 1].toString()
+                                    + "\n" + END_LINE);
+                            break;
+                        } else if (temp[0].equals("unmark")) {
+                            // Check for 'unmark'
+                            taskArr[Integer.parseInt(temp[1]) - 1].unmark();
+                            System.out.println("\tOk, I've marked this task as not done yet:\n"
+                                    + "\t\t" + taskArr[Integer.parseInt(temp[1]) - 1]
+                                    + "\n" + END_LINE);
+                            break;
+                        }
+                    }
+
                     // Default case
-                    strArr[index] = userInput;
+                    taskArr[index] = new Task(userInput);
                     index += 1;
                     System.out.println("\tadded: " + userInput + "\n" + END_LINE);
+
             }
 
             // Exit program
@@ -74,5 +94,36 @@ public class Monarch {
         greeting();
         program();
         end();
+    }
+
+    public static class Task {
+        private String description;
+        private boolean isDone;
+
+        public Task(String description) {
+            this.description = description;
+            this.isDone = false;
+        }
+
+        public String getStatusIcon() {
+            return (isDone ? "X" : " ");
+        }
+
+        public String getDescription() {
+            return (description);
+        }
+
+        public void markAsDone() {
+            this.isDone = true;
+        }
+
+        public void unmark() {
+            this.isDone = false;
+        }
+
+        @Override
+        public String toString() {
+            return (String.format("[%s] %s", getStatusIcon(), description));
+        }
     }
 }
