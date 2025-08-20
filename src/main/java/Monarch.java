@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import Tasks.*;
+import Exceptions.*;
 
 public class Monarch {
     static String END_LINE = "\t____________________________________________________________";
@@ -58,46 +59,70 @@ public class Monarch {
 
                 case "todo":
                     // Create a ToDo task
-                    toDo toDoTask = new toDo(userInput.substring(4 + 1));
-                    taskArr[index] = toDoTask;
-                    index += 1;
-                    System.out.println("\tGot it. I've added this task:\n"
-                            + "\t\t" + toDoTask + "\n"
-                            + "\tNow you have " + index + " tasks in the list.\n"
-                            + "\n" + END_LINE);
+                    try {
+                        if (sliced.length == 1) {
+                            throw new MonException("ToDo missing description");
+                        }
+                        toDo toDoTask = new toDo(userInput.substring(4 + 1));
+                        taskArr[index] = toDoTask;
+                        index += 1;
+                        System.out.println("\tGot it. I've added this task:\n"
+                                + "\t\t" + toDoTask + "\n"
+                                + "\tNow you have " + index + " tasks in the list.\n"
+                                + "\n" + END_LINE);
+                    } catch (MonException e) {
+                        System.out.println("\tUH-OH: You need a description for a todo."
+                                + "\n" + END_LINE);
+                    }
                     break;
 
                 case "deadline":
                     // Create a deadline task
-                    String[] args = userInput.substring(8 + 1).split(" /by ");
-                    Deadline deadlineTask = new Deadline(args[0], args[1]);
-                    taskArr[index] = deadlineTask;
-                    index += 1;
-                    System.out.println("\tGot it. I've added this task:\n"
-                            + "\t\t" + deadlineTask + "\n"
-                            + "\tNow you have " + index + " tasks in the list.\n"
-                            + "\n" + END_LINE);
+                    try {
+                        String[] args = userInput.substring(8 + 1).split(" /by ");
+                        if (args.length == 1) {
+                            throw new MonException("Deadline missing end");
+                        }
+                        Deadline deadlineTask = new Deadline(args[0], args[1]);
+                        taskArr[index] = deadlineTask;
+                        index += 1;
+                        System.out.println("\tGot it. I've added this task:\n"
+                                + "\t\t" + deadlineTask + "\n"
+                                + "\tNow you have " + index + " tasks in the list.\n"
+                                + "\n" + END_LINE);
+                    } catch (MonException error) {
+                        System.out.println("\tUH-OH: You need a end time for a deadline."
+                                + "\n" + END_LINE);
+                    }
                     break;
 
                 case "event":
                     // Create an event task
-                    String[] split = userInput.substring(5 + 1).split(" /from ");
-                    String[] temp = split[1].split(" /to ");
-                    String[] eventArgs = {split[0], temp[0], temp[1]};
-                    Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
-                    taskArr[index] = eventTask;
-                    index += 1;
-                    System.out.println("\tGot it. I've added this task:\n"
-                            + "\t\t" + eventTask + "\n"
-                            + "\tNow you have " + index + " tasks in the list.\n"
-                            + "\n" + END_LINE);
-                    break;
+                    try {
+                        String[] split = userInput.substring(5 + 1).split(" /from ");
+                        String[] temp = split[1].split(" /to ");
+                        String[] eventArgs = {split[0], temp[0], temp[1]};
+                        Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
+                        taskArr[index] = eventTask;
+                        index += 1;
+                        System.out.println("\tGot it. I've added this task:\n"
+                                + "\t\t" + eventTask + "\n"
+                                + "\tNow you have " + index + " tasks in the list.\n"
+                                + "\n" + END_LINE);
+                    } catch (RuntimeException error) {
+                        System.out.println("\tUH-OH: You need a start time & end time for an event."
+                                + "\n" + END_LINE);
+                    }
+                break;
 
                 default:
-                    // Default case
-                    taskArr[index] = new Task(userInput);
-                    index += 1;
-                    System.out.println("\tadded: " + userInput + "\n" + END_LINE);
+                    // Unknown case
+                    try {
+                        throw new MonException("Unknown");
+                    } catch (MonException error) {
+                        System.out.println("\tThat's not something I can do unfortunately ¯\\_(ツ)_/¯"
+                                + "\n" + END_LINE);
+                    }
 
             }
 
