@@ -27,7 +27,7 @@ public class Monarch {
 
                 case "list":
                     // Return all inputs
-                    System.out.println("Here are the tasks in your list:");
+                    System.out.println("\tHere are the tasks in your list:");
                     for (int i = 0; i < taskArr.length; i ++) {
                         if (taskArr[i] == null) {
                             break;
