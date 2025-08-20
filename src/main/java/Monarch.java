@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import Tasks.*;
 
 public class Monarch {
     static String END_LINE = "\t____________________________________________________________";
@@ -16,14 +17,17 @@ public class Monarch {
             String userInput = scanObj.nextLine();
             System.out.println(END_LINE);
 
+            String[] sliced = userInput.split(" ");
+
             // Interpret user input
-            switch (userInput) {
+            switch (sliced[0]) {
                 case "bye":
                     // Set exit flag
                     break;
 
                 case "list":
                     // Return all inputs
+                    System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < taskArr.length; i ++) {
                         if (taskArr[i] == null) {
                             break;
@@ -36,26 +40,60 @@ public class Monarch {
                     System.out.println(END_LINE);
                     break;
 
-                default:
-                    // Check for 'mark'
-                    String[] temp = userInput.split(" ");
-                    if (temp.length > 1) {
-                        if (temp[0].equals("mark")) {
-                            taskArr[Integer.parseInt(temp[1]) - 1].markAsDone();
-                            System.out.println("\tNice! I've marked this task as done:\n"
-                                    + "\t\t" + taskArr[Integer.parseInt(temp[1]) - 1].toString()
-                                    + "\n" + END_LINE);
-                            break;
-                        } else if (temp[0].equals("unmark")) {
-                            // Check for 'unmark'
-                            taskArr[Integer.parseInt(temp[1]) - 1].unmark();
-                            System.out.println("\tOk, I've marked this task as not done yet:\n"
-                                    + "\t\t" + taskArr[Integer.parseInt(temp[1]) - 1]
-                                    + "\n" + END_LINE);
-                            break;
-                        }
-                    }
+                case "mark":
+                    // Mark task as done
+                    taskArr[Integer.parseInt(sliced[1]) - 1].markAsDone();
+                    System.out.println("\tNice! I've marked this task as done:\n"
+                            + "\t\t" + taskArr[Integer.parseInt(sliced[1]) - 1].toString()
+                            + "\n" + END_LINE);
+                    break;
 
+                case "unmark":
+                    // Mark task as undone
+                    taskArr[Integer.parseInt(sliced[1]) - 1].unmark();
+                    System.out.println("\tOk, I've marked this task as not done yet:\n"
+                            + "\t\t" + taskArr[Integer.parseInt(sliced[1]) - 1]
+                            + "\n" + END_LINE);
+                    break;
+
+                case "todo":
+                    // Create a ToDo task
+                    toDo toDoTask = new toDo(userInput.substring(4 + 1));
+                    taskArr[index] = toDoTask;
+                    index += 1;
+                    System.out.println("\tGot it. I've added this task:\n"
+                            + "\t\t" + toDoTask + "\n"
+                            + "\tNow you have " + index + " tasks in the list.\n"
+                            + "\n" + END_LINE);
+                    break;
+
+                case "deadline":
+                    // Create a deadline task
+                    String[] args = userInput.substring(8 + 1).split(" /by ");
+                    Deadline deadlineTask = new Deadline(args[0], args[1]);
+                    taskArr[index] = deadlineTask;
+                    index += 1;
+                    System.out.println("\tGot it. I've added this task:\n"
+                            + "\t\t" + deadlineTask + "\n"
+                            + "\tNow you have " + index + " tasks in the list.\n"
+                            + "\n" + END_LINE);
+                    break;
+
+                case "event":
+                    // Create an event task
+                    String[] split = userInput.substring(5 + 1).split(" /from ");
+                    String[] temp = split[1].split(" /to ");
+                    String[] eventArgs = {split[0], temp[0], temp[1]};
+                    Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
+                    taskArr[index] = eventTask;
+                    index += 1;
+                    System.out.println("\tGot it. I've added this task:\n"
+                            + "\t\t" + eventTask + "\n"
+                            + "\tNow you have " + index + " tasks in the list.\n"
+                            + "\n" + END_LINE);
+                    break;
+
+                default:
                     // Default case
                     taskArr[index] = new Task(userInput);
                     index += 1;
@@ -96,34 +134,5 @@ public class Monarch {
         end();
     }
 
-    public static class Task {
-        private String description;
-        private boolean isDone;
 
-        public Task(String description) {
-            this.description = description;
-            this.isDone = false;
-        }
-
-        public String getStatusIcon() {
-            return (isDone ? "X" : " ");
-        }
-
-        public String getDescription() {
-            return (description);
-        }
-
-        public void markAsDone() {
-            this.isDone = true;
-        }
-
-        public void unmark() {
-            this.isDone = false;
-        }
-
-        @Override
-        public String toString() {
-            return (String.format("[%s] %s", getStatusIcon(), description));
-        }
-    }
 }
