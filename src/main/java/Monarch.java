@@ -1,11 +1,11 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 import Tasks.*;
 import Exceptions.*;
 
 public class Monarch {
     static String END_LINE = "\t____________________________________________________________";
-    static Task[] taskArr = new Task[100];
-    static int index = 0;
+    static ArrayList<Task> taskArr = new ArrayList<Task>();
 
     /**
      * The core program
@@ -29,12 +29,12 @@ public class Monarch {
                 case "list":
                     // Return all inputs
                     System.out.println("\tHere are the tasks in your list:");
-                    for (int i = 0; i < taskArr.length; i ++) {
-                        if (taskArr[i] == null) {
+                    for (int i = 0; i < taskArr.size(); i ++) {
+                        if (taskArr.get(i) == null) {
                             break;
                         }
                         else {
-                            String msg = String.format("%d. %s", i + 1, taskArr[i].toString());
+                            String msg = String.format("%d. %s", i + 1, taskArr.get(i).toString());
                             System.out.println("\t" + msg);
                         }
                     }
@@ -43,17 +43,17 @@ public class Monarch {
 
                 case "mark":
                     // Mark task as done
-                    taskArr[Integer.parseInt(sliced[1]) - 1].markAsDone();
+                    taskArr.get(Integer.parseInt(sliced[1]) - 1).markAsDone();
                     System.out.println("\tNice! I've marked this task as done:\n"
-                            + "\t\t" + taskArr[Integer.parseInt(sliced[1]) - 1].toString()
+                            + "\t\t" + taskArr.get(Integer.parseInt(sliced[1]) - 1).toString()
                             + "\n" + END_LINE);
                     break;
 
                 case "unmark":
                     // Mark task as undone
-                    taskArr[Integer.parseInt(sliced[1]) - 1].unmark();
+                    taskArr.get(Integer.parseInt(sliced[1]) - 1).unmark();
                     System.out.println("\tOk, I've marked this task as not done yet:\n"
-                            + "\t\t" + taskArr[Integer.parseInt(sliced[1]) - 1]
+                            + "\t\t" + taskArr.get(Integer.parseInt(sliced[1]) - 1)
                             + "\n" + END_LINE);
                     break;
 
@@ -64,11 +64,10 @@ public class Monarch {
                             throw new MonException("ToDo missing description");
                         }
                         toDo toDoTask = new toDo(userInput.substring(4 + 1));
-                        taskArr[index] = toDoTask;
-                        index += 1;
+                        taskArr.add(toDoTask);
                         System.out.println("\tGot it. I've added this task:\n"
                                 + "\t\t" + toDoTask + "\n"
-                                + "\tNow you have " + index + " tasks in the list.\n"
+                                + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
                                 + "\n" + END_LINE);
                     } catch (MonException e) {
                         System.out.println("\tUH-OH: You need a description for a todo."
@@ -84,11 +83,10 @@ public class Monarch {
                             throw new MonException("Deadline missing end");
                         }
                         Deadline deadlineTask = new Deadline(args[0], args[1]);
-                        taskArr[index] = deadlineTask;
-                        index += 1;
+                        taskArr.add(deadlineTask);
                         System.out.println("\tGot it. I've added this task:\n"
                                 + "\t\t" + deadlineTask + "\n"
-                                + "\tNow you have " + index + " tasks in the list.\n"
+                                + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
                                 + "\n" + END_LINE);
                     } catch (MonException error) {
                         System.out.println("\tUH-OH: You need a end time for a deadline."
@@ -103,17 +101,26 @@ public class Monarch {
                         String[] temp = split[1].split(" /to ");
                         String[] eventArgs = {split[0], temp[0], temp[1]};
                         Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
-                        taskArr[index] = eventTask;
-                        index += 1;
+                        taskArr.add(eventTask);
                         System.out.println("\tGot it. I've added this task:\n"
                                 + "\t\t" + eventTask + "\n"
-                                + "\tNow you have " + index + " tasks in the list.\n"
+                                + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
                                 + "\n" + END_LINE);
                     } catch (RuntimeException error) {
                         System.out.println("\tUH-OH: You need a start time & end time for an event."
                                 + "\n" + END_LINE);
                     }
-                break;
+                    break;
+
+                case "delete":
+                    // Delete a task
+                    Task temp = taskArr.get(Integer.valueOf(sliced[1]) - 1);
+                    taskArr.remove(Integer.valueOf(sliced[1]) - 1);
+                    System.out.println("\tNoted. I've removed the task:\n"
+                            + "\t\t" + temp + "\n"
+                            + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
+                            + "\n" + END_LINE);
+                    break;
 
                 default:
                     // Unknown case
