@@ -3,6 +3,10 @@
 	What can I do for you?
 	____________________________________________________________
 	____________________________________________________________
+	Are you sure you want to clear all tasks? [Y]
+	Noted. I've cleared all tasks
+	____________________________________________________________
+	____________________________________________________________
 	Got it. I've added this task:
 		[T][ ] borrow book
 	Now you have 1 tasks in the list.
