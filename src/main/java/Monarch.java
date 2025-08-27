@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.Scanner;
-import java.io.File;
 import java.io.FileWriter;
 
 import Tasks.Deadline;
@@ -12,75 +11,36 @@ import Tasks.toDo;
 
 import Exceptions.MonException;
 
+import Core.Storage;
+import Core.TaskList;
 
 /**
  * Represents the main Chat bot. Is started on running the file.
  */
 public class Monarch {
     private static final String END_LINE = "\t____________________________________________________________";
-    private static ArrayList<Task> taskArr = null;
     private static final String SAVE_PATH = "./save.txt";
+    private Storage storage;
+    private TaskList tasks;
+    // Temporary variable for debugging
+    private ArrayList<Task> taskArr;
 
-    private static void init() {
-        File f = new File(SAVE_PATH);
+    /**
+     * Constructor for the Monarch chatbot object.
+     *
+     * @param filePath The path to a text file.
+     */
+    public Monarch(String filePath) {
+        storage = new Storage(filePath);
         try {
-            // Check if save file exists, create if required
-            f.createNewFile();
-
-            // Retrieve tasks from save file
-            ArrayList<Task> save = new ArrayList<>();
-            Scanner s = new Scanner(f);
-            while (s.hasNext()) {
-                String[] i = s.nextLine().split(",,,", 3);
-                String type = i[0];
-                String status = i[1];
-                String info = i[2];
-                Task task = null;
-
-                switch (type) {
-                case "T":
-                    // Sample structure: <type>,,,<status>,,,<info>
-                    task = new toDo(info);
-                    break;
-
-                case "D":
-                    // Sample structure: <type>,,,<status>,,,<desc>,,,<end>
-                    String[] deadlineArgs = info.split(",,,", 2);
-                    task = new Deadline(deadlineArgs[0], deadlineArgs[1]);
-                    break;
-
-                case "E":
-                    // Sample structure: <type>,,,<status>,,,<desc>,,,<start>,,,<end>
-                    String[] eventArgs = info.split(",,,", 3);
-                    task = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
-                    break;
-
-                default:
-                    System.out.println("Unknown task type: " + type);
-                }
-
-
-                if (task != null) {
-                    // Update task status
-                    if (status.equals("X")) {
-                        task.markAsDone();
-                    }
-
-                    // Append task to task list
-                    save.add(task);
-                }
-            }
-            // Return compiled task list
-            taskArr = save;
-
-        } catch (IOException e) {
-            // Return an empty ArrayList due to error
-            System.out.println(e.getMessage());
-            taskArr = new ArrayList<>();
+            tasks = new TaskList(storage.load());
+        } catch (MonException e) {
+            tasks = new TaskList();
         }
+        taskArr = tasks.temp();
     }
 
-    private static void program() {
+    private void program() {
         Scanner scanObj = new Scanner(System.in);
 
         while (true) {
@@ -114,7 +74,7 @@ public class Monarch {
                 // Mark task as done
                 taskArr.get(Integer.parseInt(sliced[1]) - 1).markAsDone();
                 try {
-                    save();
+                    storage.save(taskArr);
                 } catch (IOException e) {
                     System.out.println("\tUH-OH: Your task change didn't get saved!"
                             + "\n" + END_LINE);
@@ -128,7 +88,7 @@ public class Monarch {
                 // Mark task as undone
                 taskArr.get(Integer.parseInt(sliced[1]) - 1).unmark();
                 try {
-                    save();
+                    storage.save(taskArr);
                 } catch (IOException e) {
                     System.out.println("\tUH-OH: Your task change didn't get saved!"
                             + "\n" + END_LINE);
@@ -146,7 +106,7 @@ public class Monarch {
                     }
                     toDo toDoTask = new toDo(userInput.substring(4 + 1));
                     taskArr.add(toDoTask);
-                    save();
+                    storage.save(taskArr);
                     System.out.println("\tGot it. I've added this task:\n"
                             + "\t\t" + toDoTask + "\n"
                             + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
@@ -169,7 +129,7 @@ public class Monarch {
                     }
                     Deadline deadlineTask = new Deadline(args[0], args[1]);
                     taskArr.add(deadlineTask);
-                    save();
+                    storage.save(taskArr);
                     System.out.println("\tGot it. I've added this task:\n"
                             + "\t\t" + deadlineTask + "\n"
                             + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
@@ -191,7 +151,7 @@ public class Monarch {
                     String[] eventArgs = {split[0], temp[0], temp[1]};
                     Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
                     taskArr.add(eventTask);
-                    save();
+                    storage.save(taskArr);
                     System.out.println("\tGot it. I've added this task:\n"
                             + "\t\t" + eventTask + "\n"
                             + "\tNow you have " + taskArr.size() + " tasks in the list.\n"
@@ -210,7 +170,7 @@ public class Monarch {
                 Task temp = taskArr.get(Integer.valueOf(sliced[1]) - 1);
                 taskArr.remove(Integer.valueOf(sliced[1]) - 1);
                 try {
-                    save();
+                    storage.save(taskArr);
                 } catch (IOException e) {
                     System.out.println("\tUH-OH: Your task change didn't get saved!"
                             + "\n" + END_LINE);
@@ -250,55 +210,18 @@ public class Monarch {
         }
     }
 
-    private static void greeting() {
+    private void greeting() {
         String msg = "\tHello! I'm Monarch\n\tWhat can I do for you?";
         System.out.println(msg);
         System.out.println(END_LINE);
     }
 
-    private static void end() {
+    private void end() {
         System.out.println("\tBye. Hope to see you again soon!");
         System.out.println(END_LINE);
     }
 
-    private static void save() throws IOException {
-        FileWriter fw = new FileWriter(SAVE_PATH);
-        String tasksList = "";
-        for (int i = 0; i < taskArr.size(); i ++) {
-            Task task = taskArr.get(i);
-            String info = "";
-
-            switch (task.getType()) {
-            case "T":
-                info = task.getDescription();
-                break;
-
-            case "D":
-                info = String.format("%s,,,%s", task.getDescription(), task.getInfo()[0]);
-                break;
-
-            case "E":
-                info = String.format("%s,,,%s,,,%s", task.getDescription(),
-                        task.getInfo()[0],
-                        task.getInfo()[1]);
-                break;
-
-            default:
-                // Should never reach
-                break;
-            }
-
-            String taskString = String.format("%s,,,%s,,,",
-                    taskArr.get(i).getType(),
-                    taskArr.get(i).getStatusIcon());
-            //System.out.println(taskString + info);
-            tasksList += (taskString + info + System.lineSeparator());
-        }
-        fw.write(tasksList);
-        fw.close();
-    }
-
-    private static void clear() {
+    private void clear() {
         taskArr = new ArrayList<>();
         try {
             FileWriter fw = new FileWriter(SAVE_PATH);
@@ -312,15 +235,25 @@ public class Monarch {
     /**
      * Returns nothing.
      * Starts the main program of the Chat bot.
-     *
-     * @param args Additional command line flags
      */
-    public static void main(String[] args) {
-        init();
+    public void run() {
+//        taskArr = Storage.init(SAVE_PATH);
+//        taskList = new TaskList(Storage.init(SAVE_PATH));
         System.out.println(END_LINE);
         greeting();
         program();
         end();
+
+    }
+
+    /**
+     * Returns nothing.
+     * Start the Chat bot.
+     *
+     * @param args Additional command line flags
+     */
+    public static void main(String[] args) {
+        new Monarch(SAVE_PATH).run();
     }
 
 

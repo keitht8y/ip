@@ -1,0 +1,132 @@
+package Core;
+
+import Exceptions.MonException;
+import Tasks.Deadline;
+import Tasks.Event;
+import Tasks.Task;
+import Tasks.toDo;
+
+import Core.TaskList;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+/**
+ * Represents the way Monarch interacts with task storage.
+ */
+public class Storage {
+    private final String filePath;
+
+    public Storage(String filePath) {
+        this.filePath = filePath;
+    }
+
+    /**
+     * Returns an ArrayList of Task from a given text file.
+     *
+     * @return Collection of Tasks.
+     */
+    public ArrayList<Task> load() throws MonException {
+        File f = new File(this.filePath);
+        try {
+            // Check if save file exists, create if required
+            f.createNewFile();
+
+            // Retrieve tasks from save file
+            ArrayList<Task> save = new ArrayList<>();
+            Scanner s = new Scanner(f);
+            while (s.hasNext()) {
+                String[] i = s.nextLine().split(",,,", 3);
+                String type = i[0];
+                String status = i[1];
+                String info = i[2];
+                Task task = null;
+
+                switch (type) {
+                case "T":
+                    // Sample structure: <type>,,,<status>,,,<info>
+                    task = new toDo(info);
+                    break;
+
+                case "D":
+                    // Sample structure: <type>,,,<status>,,,<desc>,,,<end>
+                    String[] deadlineArgs = info.split(",,,", 2);
+                    task = new Deadline(deadlineArgs[0], deadlineArgs[1]);
+                    break;
+
+                case "E":
+                    // Sample structure: <type>,,,<status>,,,<desc>,,,<start>,,,<end>
+                    String[] eventArgs = info.split(",,,", 3);
+                    task = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
+                    break;
+
+                default:
+                    System.out.println("Unknown task type: " + type);
+                }
+
+
+                if (task != null) {
+                    // Update task status
+                    if (status.equals("X")) {
+                        task.markAsDone();
+                    }
+
+                    // Append task to task list
+                    save.add(task);
+                }
+            }
+            // Return compiled task list
+            return save;
+
+        } catch (IOException e) {
+            throw new MonException("Missing save file");
+        }
+    }
+
+    /**
+     * Returns nothing.
+     * Saves all tasks from an ArrayList of Tasks into a file given by the file path.
+     *
+     * @param taskArr An ArrayList of Task.
+     * @throws IOException If the file at the file path cannot be found.
+     */
+    public void save(ArrayList<Task> taskArr) throws IOException {
+        FileWriter fw = new FileWriter(this.filePath);
+        String tasksList = "";
+        for (int i = 0; i < taskArr.size(); i ++) {
+            Task task = taskArr.get(i);
+            String info = "";
+
+            switch (task.getType()) {
+            case "T":
+                info = task.getDescription();
+                break;
+
+            case "D":
+                info = String.format("%s,,,%s", task.getDescription(), task.getInfo()[0]);
+                break;
+
+            case "E":
+                info = String.format("%s,,,%s,,,%s", task.getDescription(),
+                        task.getInfo()[0],
+                        task.getInfo()[1]);
+                break;
+
+            default:
+                // Should never reach
+                break;
+            }
+
+            String taskString = String.format("%s,,,%s,,,",
+                    taskArr.get(i).getType(),
+                    taskArr.get(i).getStatusIcon());
+            //System.out.println(taskString + info);
+            tasksList += (taskString + info + System.lineSeparator());
+        }
+        fw.write(tasksList);
+        fw.close();
+    }
+}
