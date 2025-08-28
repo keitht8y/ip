@@ -21,114 +21,114 @@ public class  Parser {
 
         // Interpret user input
         switch (sliced[0]) {
-            case "bye":
-                this.isEnd = true;
-                Storage storage = new Storage();
-                try {
-                    storage.save(tasks.getAll());
-                } catch (IOException e) {
-                    throw new MonException("UH-OH: Tasks didn't get saved properly.");
+        case "bye":
+            this.isEnd = true;
+            Storage storage = new Storage();
+            try {
+                storage.save(tasks.getAll());
+            } catch (IOException e) {
+                throw new MonException("UH-OH: Tasks didn't get saved properly.");
+            }
+            break;
+
+        case "list":
+            // Return all inputs
+            ui.listTasks(tasks.getAll());
+            break;
+
+        case "mark":
+            // Mark task as done
+            try {
+                if (sliced.length < 2) {
+                    throw new MonException("UH-OH: You forgot to indicate a task to mark (e.g. 1).");
+                } else if (tasks.size() < Integer.parseInt(sliced[1]) - 1 || Integer.valueOf(sliced[1]) - 1 <= 0) {
+                    throw new MonException("UH-OH: The task isn't in the range of the task list.");
                 }
-                break;
+            } catch (NumberFormatException e) {
+                throw new MonException("UH-OH: You need to give a number for the task to delete.");
+            }
+            tasks.get(Integer.parseInt(sliced[1]) - 1).markAsDone();
+            ui.mark(tasks.get(Integer.parseInt(sliced[1]) - 1));
+            break;
 
-            case "list":
-                // Return all inputs
-                ui.listTasks(tasks.getAll());
-                break;
-
-            case "mark":
-                // Mark task as done
-                try {
-                    if (sliced.length < 2) {
-                        throw new MonException("UH-OH: You forgot to indicate a task to mark (e.g. 1).");
-                    } else if (tasks.size() < Integer.parseInt(sliced[1]) - 1 || Integer.valueOf(sliced[1]) - 1 <= 0) {
-                        throw new MonException("UH-OH: The task isn't in the range of the task list.");
-                    }
-                } catch (NumberFormatException e) {
-                    throw new MonException("UH-OH: You need to give a number for the task to delete.");
+        case "unmark":
+            // Mark task as undone
+            try {
+                if (sliced.length < 2) {
+                    throw new MonException("UH-OH: You forgot to indicate a task to unmark (e.g. 1).");
+                } else if (tasks.size() < Integer.parseInt(sliced[1]) - 1 || Integer.valueOf(sliced[1]) - 1 <= 0) {
+                    throw new MonException("UH-OH: The task isn't in the range of the task list.");
                 }
-                tasks.get(Integer.parseInt(sliced[1]) - 1).markAsDone();
-                ui.mark(tasks.get(Integer.parseInt(sliced[1]) - 1));
-                break;
+            } catch (NumberFormatException e) {
+                throw new MonException("UH-OH: You need to give a number for the task to delete.");
+            }
+            tasks.get(Integer.parseInt(sliced[1]) - 1).unmark();
+            ui.unmark(tasks.get(Integer.parseInt(sliced[1]) - 1));
+            break;
 
-            case "unmark":
-                // Mark task as undone
-                try {
-                    if (sliced.length < 2) {
-                        throw new MonException("UH-OH: You forgot to indicate a task to unmark (e.g. 1).");
-                    } else if (tasks.size() < Integer.parseInt(sliced[1]) - 1 || Integer.valueOf(sliced[1]) - 1 <= 0) {
-                        throw new MonException("UH-OH: The task isn't in the range of the task list.");
-                    }
-                } catch (NumberFormatException e) {
-                    throw new MonException("UH-OH: You need to give a number for the task to delete.");
+        case "todo":
+            // Create a ToDo task
+            if (sliced.length == 1) {
+                throw new MonException("UH-OH: You need a description for a todo.");
+            }
+            toDo toDoTask = new toDo(userInput.substring(4 + 1));
+            tasks.add(toDoTask);
+            ui.addTask(toDoTask);
+            break;
+
+        case "deadline":
+            // Create a deadline task
+            try {
+                String[] args = userInput.substring(8 + 1).split(" /by ", 2);
+                if (args.length == 1) {
+                    throw new MonException("UH-OH: You need a end time for a deadline.");
                 }
-                tasks.get(Integer.parseInt(sliced[1]) - 1).unmark();
-                ui.unmark(tasks.get(Integer.parseInt(sliced[1]) - 1));
-                break;
+                Deadline deadlineTask = new Deadline(args[0], args[1]);
+                tasks.add(deadlineTask);
+                ui.addTask(deadlineTask);
+            } catch (RuntimeException error) {
+                throw new MonException("UH-OH: You need a start time & end time for an event.");
+            }
+            break;
 
-            case "todo":
-                // Create a ToDo task
-                if (sliced.length == 1) {
-                    throw new MonException("UH-OH: You need a description for a todo.");
+        case "event":
+            // Create an event task
+            try {
+                String[] split = userInput.substring(5 + 1).split(" /from ", 2);
+                String[] temp = split[1].split(" /to ", 2);
+                String[] eventArgs = {split[0], temp[0], temp[1]};
+                Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
+                tasks.add(eventTask);
+                ui.addTask(eventTask);
+            } catch (RuntimeException error) {
+                throw new MonException("UH-OH: You need a start time & end time for an event.");
+            }
+            break;
+
+        case "delete":
+            // Delete a task
+            try {
+                if (sliced.length < 2) {
+                    throw new MonException("UH-OH: You forgot to indicate a task to unmark (e.g. 1).");
+                } else if (tasks.size() < Integer.valueOf(sliced[1]) - 1 || Integer.valueOf(sliced[1]) - 1 <= 0) {
+                    throw new MonException("UH-OH: The task isn't in the range of the task list.");
                 }
-                toDo toDoTask = new toDo(userInput.substring(4 + 1));
-                tasks.add(toDoTask);
-                ui.addTask(toDoTask);
-                break;
+            } catch (NumberFormatException e) {
+                throw new MonException("UH-OH: You need to give a number for the task to delete.");
+            }
+            Task temp = tasks.get(Integer.valueOf(sliced[1]) - 1);
+            tasks.remove(temp);
+            ui.deleteTask(temp);
+            break;
 
-            case "deadline":
-                // Create a deadline task
-                try {
-                    String[] args = userInput.substring(8 + 1).split(" /by ", 2);
-                    if (args.length == 1) {
-                        throw new MonException("UH-OH: You need a end time for a deadline.");
-                    }
-                    Deadline deadlineTask = new Deadline(args[0], args[1]);
-                    tasks.add(deadlineTask);
-                    ui.addTask(deadlineTask);
-                } catch (RuntimeException error) {
-                    throw new MonException("UH-OH: You need a start time & end time for an event.");
-                }
-                break;
+        case "clear":
+            // Clear all tasks
+            ui.clearList();
+            break;
 
-            case "event":
-                // Create an event task
-                try {
-                    String[] split = userInput.substring(5 + 1).split(" /from ", 2);
-                    String[] temp = split[1].split(" /to ", 2);
-                    String[] eventArgs = {split[0], temp[0], temp[1]};
-                    Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
-                    tasks.add(eventTask);
-                    ui.addTask(eventTask);
-                } catch (RuntimeException error) {
-                    throw new MonException("UH-OH: You need a start time & end time for an event.");
-                }
-                break;
-
-            case "delete":
-                // Delete a task
-                try {
-                    if (sliced.length < 2) {
-                        throw new MonException("UH-OH: You forgot to indicate a task to unmark (e.g. 1).");
-                    } else if (tasks.size() < Integer.valueOf(sliced[1]) - 1 || Integer.valueOf(sliced[1]) - 1 <= 0) {
-                        throw new MonException("UH-OH: The task isn't in the range of the task list.");
-                    }
-                } catch (NumberFormatException e) {
-                    throw new MonException("UH-OH: You need to give a number for the task to delete.");
-                }
-                Task temp = tasks.get(Integer.valueOf(sliced[1]) - 1);
-                tasks.remove(temp);
-                ui.deleteTask(temp);
-                break;
-
-            case "clear":
-                // Clear all tasks
-                ui.clearList();
-                break;
-
-            default:
-                // Unknown case
-                throw new MonException("That's not something I can do unfortunately ¯\\_(ツ)_/¯");
+        default:
+            // Unknown case
+            throw new MonException("That's not something I can do unfortunately ¯\\_(ツ)_/¯");
         }
     }
 
