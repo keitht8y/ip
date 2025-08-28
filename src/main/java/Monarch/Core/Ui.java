@@ -1,9 +1,8 @@
-package Core;
+package Monarch.Core;
 
-import Tasks.Task;
+import Monarch.Tasks.Task;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Ui {
     /** Used by Parser for formatting strings too */

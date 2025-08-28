@@ -1,4 +1,4 @@
-package Tasks;
+package Monarch.Tasks;
 
 /**
  * Represents a toDo task, consisting of only a description.

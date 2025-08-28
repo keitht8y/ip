@@ -1,4 +1,4 @@
-package Tasks;
+package Monarch.Tasks;
 
 /**
  * Represents a task in our chatbot.

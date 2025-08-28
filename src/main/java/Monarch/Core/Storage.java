@@ -1,10 +1,10 @@
-package Core;
+package Monarch.Core;
 
-import Exceptions.MonException;
-import Tasks.Deadline;
-import Tasks.Event;
-import Tasks.Task;
-import Tasks.toDo;
+import Monarch.Exceptions.MonException;
+import Monarch.Tasks.Deadline;
+import Monarch.Tasks.Event;
+import Monarch.Tasks.Task;
+import Monarch.Tasks.toDo;
 
 import java.io.File;
 import java.io.FileWriter;

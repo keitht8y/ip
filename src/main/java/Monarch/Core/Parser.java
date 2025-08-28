@@ -1,14 +1,12 @@
-package Core;
+package Monarch.Core;
 
-import Exceptions.MonException;
-import Tasks.Task;
-import Tasks.toDo;
-import Tasks.Deadline;
-import Tasks.Event;
+import Monarch.Exceptions.MonException;
+import Monarch.Tasks.Task;
+import Monarch.Tasks.toDo;
+import Monarch.Tasks.Deadline;
+import Monarch.Tasks.Event;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Represents how commands are interpreted & executed by Monarch.

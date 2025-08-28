@@ -1,20 +1,11 @@
-import java.io.IOException;
-import java.util.ArrayList;
-
 import java.util.Scanner;
-import java.io.FileWriter;
 
-import Tasks.Deadline;
-import Tasks.Event;
-import Tasks.Task;
-import Tasks.toDo;
+import Monarch.Exceptions.MonException;
 
-import Exceptions.MonException;
-
-import Core.Storage;
-import Core.TaskList;
-import Core.Ui;
-import Core.Parser;
+import Monarch.Core.Storage;
+import Monarch.Core.TaskList;
+import Monarch.Core.Ui;
+import Monarch.Core.Parser;
 
 /**
  * Represents the main Chat bot. Is started on running the file.

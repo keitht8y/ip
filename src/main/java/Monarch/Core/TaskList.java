@@ -1,6 +1,6 @@
-package Core;
+package Monarch.Core;
 
-import Tasks.Task;
+import Monarch.Tasks.Task;
 
 import java.io.FileWriter;
 import java.io.IOException;
