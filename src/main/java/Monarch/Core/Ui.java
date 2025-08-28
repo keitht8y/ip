@@ -59,15 +59,6 @@ public class Ui {
     }
 
     public void clearList() {
-//        System.out.println("\tAre you sure you want to clear all tasks? [Y]");
-//        Scanner scanObj = new Scanner(System.in);
-//        String confirm = scanObj.nextLine();
-//        if (confirm.equals("Y")) {
-//            tasks.clear();
-//            System.out.println("\tNoted. I've cleared all tasks");
-//        } else {
-//            System.out.println("\tYour tasks are unchanged.");
-//        }
         tasks.clear();
         System.out.println("\tNoted. I've cleared all tasks");
         System.out.println(Ui.END_LINE);

@@ -85,7 +85,6 @@ public class Storage {
     }
 
     /**
-     * Returns nothing.
      * Saves all tasks from an ArrayList of Tasks into a file given by the file path.
      *
      * @param taskArr An ArrayList of Task.
@@ -128,6 +127,11 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * Returns the path to the save file.
+     *
+     * @return The file path.
+     */
     public String getFilePath() {
         return this.filePath;
     }

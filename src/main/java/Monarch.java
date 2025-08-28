@@ -37,7 +37,6 @@ public class Monarch {
     }
 
     /**
-     * Returns nothing.
      * Starts the main program of the Chat bot.
      */
     public void run() {
@@ -63,8 +62,7 @@ public class Monarch {
     }
 
     /**
-     * Returns nothing.
-     * Start the Chat bot.
+     * Starts the Chat bot.
      *
      * @param args Additional command line flags
      */

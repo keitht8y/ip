@@ -21,26 +21,53 @@ public abstract class Task {
         this.isDone = false;
     }
 
+    /**
+     * Returns the current status of the task.
+     * "X" for marked, and " " for unmarked.
+     *
+     * @return An 'X' or a space
+     */
     public String getStatusIcon() {
         return (isDone ? "X" : " ");
     }
 
+    /**
+     * Returns the task description.
+     *
+     * @return Task description.
+     */
     public String getDescription() {
         return description;
     }
 
+    /**
+     * Marks the task as done.
+     */
     public void markAsDone() {
         this.isDone = true;
     }
 
+    /**
+     * Unmarks the task as undone.
+     */
     public void unmark() {
         this.isDone = false;
     }
 
+    /**
+     * Gets the type of task.
+     *
+     * @return The type as a String.
+     */
     public String getType() {
         return this.type;
     }
 
+    /**
+     * Returns additional data depending on the type of Task.
+     *
+     * @return A list of properties as Strings.
+     */
     abstract public String[] getInfo();
 
     @Override

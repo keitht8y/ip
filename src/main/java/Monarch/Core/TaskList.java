@@ -29,7 +29,6 @@ public class TaskList {
     }
 
     /**
-     * Returns nothing.
      * Receives a Task object to add to the task list.
      *
      * @param task The Task object to add.
@@ -39,7 +38,6 @@ public class TaskList {
     }
 
     /**
-     * Returns nothing.
      * Receives a Task object to remove from the Task List.
      *
      * @param task The task object to remove.
