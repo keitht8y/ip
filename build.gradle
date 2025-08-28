@@ -6,6 +6,7 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
@@ -28,7 +29,7 @@ test {
 }
 
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("Monarch")
 }
 
 shadowJar {
@@ -38,4 +39,5 @@ shadowJar {
 
 run{
     standardInput = System.in
+    enableAssertions = true
 }
