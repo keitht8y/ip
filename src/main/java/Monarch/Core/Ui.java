@@ -2,6 +2,7 @@ package Monarch.Core;
 
 import Monarch.Tasks.Task;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -59,6 +60,15 @@ public class Ui {
                 + "\t\t" + task + "\n"
                 + "\tNow you have " + tasks.size() + " tasks in the list.\n"
                 + "\n" + END_LINE);
+    }
+
+    public void findTask(ArrayList<Task> taskList) {
+        System.out.println("\tHere are the matching tasks in your list:");
+        for (int i = 0; i < taskList.size(); i ++) {
+            Task task = taskList.get(i);
+            System.out.println(String.format("\t%d. %s", i + 1, task.toString()));
+        }
+        System.out.println(END_LINE);
     }
 
     public void clearList() {
