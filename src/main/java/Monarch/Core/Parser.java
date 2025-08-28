@@ -7,6 +7,9 @@ import Monarch.Tasks.Deadline;
 import Monarch.Tasks.Event;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Represents how commands are interpreted & executed by Monarch.
@@ -124,6 +127,26 @@ public class  Parser {
             case "clear":
                 // Clear all tasks
                 ui.clearList();
+                break;
+
+            case "find":
+                // Find a task by keywords
+                try {
+                    String keyphrase = userInput.split(" ", 2)[1];
+                    ArrayList<Task> taskList = new ArrayList<>();
+                    Pattern pattern = Pattern.compile(keyphrase, Pattern.CASE_INSENSITIVE);
+                    for (int i = 0; i < tasks.size(); i ++) {
+                        Task task = tasks.get(i);
+                        Matcher matcher = pattern.matcher(task.getDescription());
+                        if (matcher.find()) {
+                            taskList.add(task);
+                        }
+                    }
+
+                    ui.findTask(taskList);
+                } catch (RuntimeException error) {
+                    throw new MonException("UH-OH: That's not a valid keyword for finding tasks.");
+                }
                 break;
 
             default:
