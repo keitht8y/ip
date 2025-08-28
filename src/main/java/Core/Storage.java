@@ -6,8 +6,6 @@ import Tasks.Event;
 import Tasks.Task;
 import Tasks.toDo;
 
-import Core.TaskList;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,9 +16,9 @@ import java.util.Scanner;
  * Represents the way Monarch interacts with task storage.
  */
 public class Storage {
-    private final String filePath;
+    private static String filePath;
 
-    public Storage(String filePath) {
+    public void set(String filePath) {
         this.filePath = filePath;
     }
 
@@ -128,5 +126,9 @@ public class Storage {
         }
         fw.write(tasksList);
         fw.close();
+    }
+
+    public String getFilePath() {
+        return this.filePath;
     }
 }

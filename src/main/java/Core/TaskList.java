@@ -1,8 +1,8 @@
 package Core;
 
-import Exceptions.MonException;
 import Tasks.Task;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,21 +10,21 @@ import java.util.ArrayList;
  * Represents the way Monarch handles the Task list.
  */
 public class TaskList {
-    public ArrayList<Task> taskList;
+    private static ArrayList<Task> taskList;
 
     /**
-     * Constructor for initializing a TaskList object from a ArrayList.
+     * Receives an ArrayList of Tasks to set as its own list.
      *
-     * @param taskList An initial array list of Task objects.
+     * @param taskList An array list of Tasks.
      */
-    public TaskList(ArrayList<Task> taskList) {
+    public void set(ArrayList<Task> taskList) {
         this.taskList = taskList;
     }
 
     /**
-     * Constructor for initializing an empty TaskList object
+     * Set an empty task list.
      */
-    public TaskList() {
+    public void set() {
         this.taskList = new ArrayList<Task>();
     }
 
@@ -44,17 +44,41 @@ public class TaskList {
      *
      * @param task The task object to remove.
      */
-    public void delete(Task task) {
+    public void remove(Task task) {
         taskList.remove(task);
     }
 
     /**
-     * Returns this Task List.
-     * Temporary debugging solution.
+     * Returns the size of the current task list.
      *
-     * @return An ArrayList of Task.
+     * @return Number of tasks in the list.
      */
-    public ArrayList<Task> temp() {
+    public int size() {
+        return this.taskList.size();
+    }
+
+    /**
+     * Returns a task from the list given its index.
+     *
+     * @param i The index of the task.
+     * @return A task object.
+     */
+    public Task get(int i) {
+        return this.taskList.get(i);
+    }
+
+    public ArrayList<Task> getAll() {
         return this.taskList;
+    }
+
+    public void clear() {
+        this.taskList = new ArrayList<>();
+        try {
+            FileWriter fw = new FileWriter(new Storage().getFilePath());
+            fw.write("");
+            fw.close();
+        } catch (IOException e) {
+            System.out.println("\tUH-OH");
+        }
     }
 }

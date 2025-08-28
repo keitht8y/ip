@@ -1,5 +1,4 @@
 clear
-Y
 todo borrow book
 list
 deadline return book /by 2/12/2019 1800
