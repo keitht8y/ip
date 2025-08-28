@@ -67,10 +67,18 @@ public class TaskList {
         return this.taskList.get(i);
     }
 
+    /**
+     * Returns an Array List object with all tasks.
+     *
+     * @return ArrayList of Task
+     */
     public ArrayList<Task> getAll() {
         return this.taskList;
     }
 
+    /**
+     * Removes all tasks from the list.
+     */
     public void clear() {
         this.taskList = new ArrayList<>();
         try {

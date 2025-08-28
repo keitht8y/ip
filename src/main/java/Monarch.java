@@ -47,10 +47,14 @@ public class Monarch {
         while (true) {
             String userInput = scanObj.nextLine();
             System.out.println(END_LINE);
-            Parser parser = new Parser(userInput);
 
-            if (parser.isEnd()) {
-                break;
+            try {
+                Parser parser = new Parser(userInput);
+                if (parser.isEnd()) {
+                    break;
+                }
+            } catch (MonException e) {
+                System.out.println("\t" + e.getMessage() + "\n" + Ui.END_LINE);
             }
         }
 
