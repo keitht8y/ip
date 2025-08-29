@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Represents the Ui messages of the chatbot.
  */
 public class Ui {
-    /** Used by Parser for formatting strings too */
+    /** Used by Parser for formatting strings too, made public for other classes' access */
     public static final String END_LINE = "\t____________________________________________________________";
     private TaskList tasks = new TaskList();
 
