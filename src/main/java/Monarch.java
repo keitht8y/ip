@@ -11,7 +11,6 @@ import Monarch.Core.Parser;
  * Represents the main Chat bot. Is started on running the file.
  */
 public class Monarch {
-    private static final String END_LINE = "\t____________________________________________________________";
     private static final String SAVE_PATH = "./save.txt";
     private Storage storage;
     private TaskList tasks;
@@ -40,12 +39,12 @@ public class Monarch {
      * Starts the main program of the Chat bot.
      */
     public void run() {
-        System.out.println(END_LINE);
+        System.out.println(Ui.END_LINE);
         ui.greeting();
 
         while (true) {
             String userInput = scanObj.nextLine();
-            System.out.println(END_LINE);
+            System.out.println(Ui.END_LINE);
 
             try {
                 Parser parser = new Parser(userInput);
