@@ -18,6 +18,11 @@ import java.util.Scanner;
 public class Storage {
     private static String filePath;
 
+    /**
+     * Sets the file path to the saved list of tasks.
+     *
+     * @param filePath A file path.
+     */
     public void set(String filePath) {
         this.filePath = filePath;
     }
