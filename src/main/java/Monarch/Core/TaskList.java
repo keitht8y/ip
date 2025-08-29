@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * Represents the way Monarch handles the Task list.
  */
 public class TaskList {
+    // List of tasks across all TaskList instances
     private static ArrayList<Task> taskList;
 
     /**
