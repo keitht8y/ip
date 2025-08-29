@@ -17,6 +17,12 @@ import java.util.regex.Pattern;
 public class  Parser {
     private boolean isEnd = false;
 
+    /**
+     * Constructor for Parser.
+     *
+     * @param userInput The commands.
+     * @throws MonException The exception when an invalid command is inputted.
+     */
     public Parser(String userInput) throws MonException {
         String[] sliced = userInput.split(" ");
         TaskList tasks = new TaskList();
