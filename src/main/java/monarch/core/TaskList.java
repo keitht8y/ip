@@ -1,10 +1,10 @@
-package Monarch.Core;
-
-import Monarch.Tasks.Task;
+package monarch.core;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import monarch.tasks.Task;
 
 /**
  * Represents the way Monarch handles the Task list.

@@ -1,4 +1,4 @@
-package Monarch.Tasks;
+package monarch.tasks;
 
 /**
  * Represents a task in our chatbot.
@@ -68,7 +68,7 @@ public abstract class Task {
      *
      * @return A list of properties as Strings.
      */
-    abstract public String[] getInfo();
+    public abstract String[] getInfo();
 
     @Override
     public String toString() {

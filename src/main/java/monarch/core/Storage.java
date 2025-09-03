@@ -1,16 +1,16 @@
-package Monarch.Core;
-
-import Monarch.Exceptions.MonException;
-import Monarch.Tasks.Deadline;
-import Monarch.Tasks.Event;
-import Monarch.Tasks.Task;
-import Monarch.Tasks.toDo;
+package monarch.core;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import monarch.exceptions.MonException;
+import monarch.tasks.Deadline;
+import monarch.tasks.Event;
+import monarch.tasks.Task;
+import monarch.tasks.ToDo;
 
 /**
  * Represents the way Monarch interacts with task storage.
@@ -51,7 +51,7 @@ public class Storage {
                 switch (type) {
                 case "T":
                     // Sample structure: <type>,,,<status>,,,<info>
-                    task = new toDo(info);
+                    task = new ToDo(info);
                     break;
 
                 case "D":
@@ -98,7 +98,7 @@ public class Storage {
     public void save(ArrayList<Task> taskArr) throws IOException {
         FileWriter fw = new FileWriter(this.filePath);
         String tasksList = "";
-        for (int i = 0; i < taskArr.size(); i ++) {
+        for (int i = 0; i < taskArr.size(); i++) {
             Task task = taskArr.get(i);
             String info = "";
 

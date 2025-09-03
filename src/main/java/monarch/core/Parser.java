@@ -1,20 +1,20 @@
-package Monarch.Core;
-
-import Monarch.Exceptions.MonException;
-import Monarch.Tasks.Task;
-import Monarch.Tasks.toDo;
-import Monarch.Tasks.Deadline;
-import Monarch.Tasks.Event;
+package monarch.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import monarch.exceptions.MonException;
+import monarch.tasks.Deadline;
+import monarch.tasks.Event;
+import monarch.tasks.Task;
+import monarch.tasks.ToDo;
+
 /**
  * Represents how commands are interpreted & executed by Monarch.
  */
-public class  Parser {
+public class Parser {
     private boolean isEnd = false;
 
     /**
@@ -80,7 +80,7 @@ public class  Parser {
             if (sliced.length == 1) {
                 throw new MonException("UH-OH: You need a description for a todo.");
             }
-            toDo toDoTask = new toDo(userInput.substring(4 + 1));
+            ToDo toDoTask = new ToDo(userInput.substring(4 + 1));
             tasks.add(toDoTask);
             ui.addTask(toDoTask);
             break;
@@ -130,30 +130,30 @@ public class  Parser {
             ui.deleteTask(temp);
             break;
 
-            case "clear":
-                // Clear all tasks
-                ui.clearList();
-                break;
+        case "clear":
+            // Clear all tasks
+            ui.clearList();
+            break;
 
-            case "find":
-                // Find a task by keywords
-                try {
-                    String keyphrase = userInput.split(" ", 2)[1];
-                    ArrayList<Task> taskList = new ArrayList<>();
-                    Pattern pattern = Pattern.compile(keyphrase, Pattern.CASE_INSENSITIVE);
-                    for (int i = 0; i < tasks.size(); i ++) {
-                        Task task = tasks.get(i);
-                        Matcher matcher = pattern.matcher(task.getDescription());
-                        if (matcher.find()) {
-                            taskList.add(task);
-                        }
+        case "find":
+            // Find a task by keywords
+            try {
+                String keyphrase = userInput.split(" ", 2)[1];
+                ArrayList<Task> taskList = new ArrayList<>();
+                Pattern pattern = Pattern.compile(keyphrase, Pattern.CASE_INSENSITIVE);
+                for (int i = 0; i < tasks.size(); i++) {
+                    Task task = tasks.get(i);
+                    Matcher matcher = pattern.matcher(task.getDescription());
+                    if (matcher.find()) {
+                        taskList.add(task);
                     }
-
-                    ui.findTask(taskList);
-                } catch (RuntimeException error) {
-                    throw new MonException("UH-OH: That's not a valid keyword for finding tasks.");
                 }
-                break;
+
+                ui.findTask(taskList);
+            } catch (RuntimeException error) {
+                throw new MonException("UH-OH: That's not a valid keyword for finding tasks.");
+            }
+            break;
 
         default:
             // Unknown case

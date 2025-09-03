@@ -1,13 +1,14 @@
-package Monarch.Core;
-
-import Monarch.Exceptions.MonException;
-import Monarch.Tasks.Deadline;
-import Monarch.Tasks.Event;
-import Monarch.Tasks.toDo;
-import org.junit.jupiter.api.Test;
+package monarch.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+import monarch.tasks.Deadline;
+import monarch.tasks.Event;
+import monarch.tasks.ToDo;
+
 
 public class TaskListTest {
     @Test
@@ -15,7 +16,7 @@ public class TaskListTest {
         TaskList tasks = new TaskList();
         tasks.set();
         try {
-            tasks.add(new toDo("Borrow book"));
+            tasks.add(new ToDo("Borrow book"));
             tasks.add(new Deadline("Study ahead", "1/01/2025 0000"));
             tasks.add(new Event("Visit library", "Morning", "Evening"));
 
@@ -30,7 +31,7 @@ public class TaskListTest {
         TaskList tasks = new TaskList();
         tasks.set();
         try {
-            tasks.add(new toDo("Borrow book"));
+            tasks.add(new ToDo("Borrow book"));
             tasks.add(new Deadline("Study ahead", "1/01/2025 0000"));
             tasks.add(new Event("Visit library", "Morning", "Evening"));
             tasks.clear();
