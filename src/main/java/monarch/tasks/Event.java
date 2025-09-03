@@ -1,4 +1,4 @@
-package Monarch.Tasks;
+package monarch.tasks;
 
 /**
  * Represents an Event task, consisting of a description, and a pair of start & end

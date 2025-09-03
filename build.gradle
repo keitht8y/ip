@@ -2,11 +2,16 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'checkstyle'
 }
 
 repositories {
     mavenCentral()
     maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+}
+
+checkstyle {
+    toolVersion = '11.0.1'
 }
 
 dependencies {

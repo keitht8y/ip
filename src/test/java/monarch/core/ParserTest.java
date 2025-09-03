@@ -1,10 +1,13 @@
-package Monarch.Core;
-
-import Monarch.Exceptions.MonException;
-import org.junit.jupiter.api.Test;
+package monarch.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
+
+import monarch.exceptions.MonException;
+
 
 public class ParserTest {
     @Test
@@ -15,7 +18,7 @@ public class ParserTest {
         tasks.set();
         Parser parser = new Parser("bye");
 
-        assertEquals(true, parser.isEnd());
+        assertTrue(parser.isEnd());
     }
 
     @Test

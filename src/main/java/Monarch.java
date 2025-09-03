@@ -1,11 +1,12 @@
+package monarch;
+
 import java.util.Scanner;
 
-import Monarch.Exceptions.MonException;
-
-import Monarch.Core.Storage;
-import Monarch.Core.TaskList;
-import Monarch.Core.Ui;
-import Monarch.Core.Parser;
+import monarch.core.Parser;
+import monarch.core.Storage;
+import monarch.core.TaskList;
+import monarch.core.Ui;
+import monarch.exceptions.MonException;
 
 /**
  * Represents the main Chat bot. Is started on running the file.

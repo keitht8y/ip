@@ -1,15 +1,15 @@
-package Monarch.Tasks;
+package monarch.tasks;
 
 /**
  * Represents a toDo task, consisting of only a description.
  */
-public class toDo extends Task {
+public class ToDo extends Task {
     /**
      * Constructor for a toDo task
      *
      * @param description A description for the task.
      */
-    public toDo(String description) {
+    public ToDo(String description) {
         super(description, "T");
     }
 
