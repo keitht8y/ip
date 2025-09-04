@@ -16,6 +16,7 @@ import monarch.tasks.ToDo;
  */
 public class Parser {
     private boolean isEnd = false;
+    private String result = "";
 
     /**
      * Constructor for Parser.
@@ -38,11 +39,12 @@ public class Parser {
             } catch (IOException e) {
                 throw new MonException("UH-OH: Tasks didn't get saved properly.");
             }
+            result = ui.end();
             break;
 
         case "list":
             // Return all inputs
-            ui.listTasks(tasks.getAll());
+            result = ui.listTasks(tasks.getAll());
             break;
 
         case "mark":
@@ -57,7 +59,7 @@ public class Parser {
                 throw new MonException("UH-OH: You need to give a number for the task to delete.");
             }
             tasks.get(Integer.parseInt(sliced[1]) - 1).markAsDone();
-            ui.mark(tasks.get(Integer.parseInt(sliced[1]) - 1));
+            result = ui.mark(tasks.get(Integer.parseInt(sliced[1]) - 1));
             break;
 
         case "unmark":
@@ -72,7 +74,7 @@ public class Parser {
                 throw new MonException("UH-OH: You need to give a number for the task to delete.");
             }
             tasks.get(Integer.parseInt(sliced[1]) - 1).unmark();
-            ui.unmark(tasks.get(Integer.parseInt(sliced[1]) - 1));
+            result = ui.unmark(tasks.get(Integer.parseInt(sliced[1]) - 1));
             break;
 
         case "todo":
@@ -82,7 +84,7 @@ public class Parser {
             }
             ToDo toDoTask = new ToDo(userInput.substring(4 + 1));
             tasks.add(toDoTask);
-            ui.addTask(toDoTask);
+            result = ui.addTask(toDoTask);
             break;
 
         case "deadline":
@@ -94,7 +96,7 @@ public class Parser {
                 }
                 Deadline deadlineTask = new Deadline(args[0], args[1]);
                 tasks.add(deadlineTask);
-                ui.addTask(deadlineTask);
+                result = ui.addTask(deadlineTask);
             } catch (RuntimeException error) {
                 throw new MonException("UH-OH: You need a start time & end time for an event.");
             }
@@ -108,7 +110,7 @@ public class Parser {
                 String[] eventArgs = {split[0], temp[0], temp[1]};
                 Event eventTask = new Event(eventArgs[0], eventArgs[1], eventArgs[2]);
                 tasks.add(eventTask);
-                ui.addTask(eventTask);
+                result = ui.addTask(eventTask);
             } catch (RuntimeException error) {
                 throw new MonException("UH-OH: You need a start time & end time for an event.");
             }
@@ -127,12 +129,12 @@ public class Parser {
             }
             Task temp = tasks.get(Integer.valueOf(sliced[1]) - 1);
             tasks.remove(temp);
-            ui.deleteTask(temp);
+            result = ui.deleteTask(temp);
             break;
 
         case "clear":
             // Clear all tasks
-            ui.clearList();
+            result = ui.clearList();
             break;
 
         case "find":
@@ -149,7 +151,7 @@ public class Parser {
                     }
                 }
 
-                ui.findTask(taskList);
+                result = ui.findTask(taskList);
             } catch (RuntimeException error) {
                 throw new MonException("UH-OH: That's not a valid keyword for finding tasks.");
             }
@@ -161,7 +163,21 @@ public class Parser {
         }
     }
 
+    /**
+     * Check if Parser has received a terminate command.
+     *
+     * @return A boolean.
+     */
     public boolean isEnd() {
         return this.isEnd;
+    }
+
+    /**
+     * Returns the output of the command.
+     *
+     * @return String message.
+     */
+    public String getResult() {
+        return this.result;
     }
 }

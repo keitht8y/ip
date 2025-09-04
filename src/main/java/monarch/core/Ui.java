@@ -9,24 +9,21 @@ import monarch.tasks.Task;
  */
 public class Ui {
     /** Used by Parser for formatting strings too, made public for other classes' access */
-    public static final String END_LINE = "\t____________________________________________________________";
+    // public static final String END_LINE = "\t____________________________________________________________";
     private TaskList tasks = new TaskList();
 
     /**
      * Returns a greeting message.
      */
-    public void greeting() {
-        String msg = "\tHello! I'm Monarch\n\tWhat can I do for you?";
-        System.out.println(msg);
-        System.out.println(END_LINE);
+    public String greeting() {
+        return "Hello! I'm Monarch\nWhat can I do for you?";
     }
 
     /**
      * Returns the end message.
      */
-    public void end() {
-        System.out.println("\tBye. Hope to see you again soon!");
-        System.out.println(END_LINE);
+    public String end() {
+        return "Bye. Hope to see you again soon!";
     }
 
     /**
@@ -34,17 +31,17 @@ public class Ui {
      *
      * @param taskList A list of task objects.
      */
-    public void listTasks(ArrayList<Task> taskList) {
-        System.out.println("\tHere are the tasks in your list:");
+    public String listTasks(ArrayList<Task> taskList) {
+        StringBuilder message = new StringBuilder("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i) == null) {
                 break;
             } else {
-                String msg = String.format("%d. %s", i + 1, tasks.get(i).toString());
-                System.out.println("\t" + msg);
+                String entry = String.format("%d. %s", i + 1, tasks.get(i).toString());
+                message.append("\n").append(entry);
             }
         }
-        System.out.println(END_LINE);
+        return message.toString();
     }
 
     /**
@@ -52,9 +49,9 @@ public class Ui {
      *
      * @param task Task object.
      */
-    public void mark(Task task) {
-        System.out.println("\tNice! I've marked this task as done:\n"
-                + "\t\t" + task.toString() + "\n" + END_LINE);
+    public String mark(Task task) {
+        return "Nice! I've marked this task as done:\n"
+                + "\t" + task.toString();
     }
 
     /**
@@ -62,9 +59,9 @@ public class Ui {
      *
      * @param task Task object.
      */
-    public void unmark(Task task) {
-        System.out.println("\tOk, I've marked this task as not done yet:\n"
-                + "\t\t" + task + "\n" + END_LINE);
+    public String unmark(Task task) {
+        return "Ok, I've marked this task as not done yet:\n"
+                + "\t" + task.toString();
     }
 
     /**
@@ -72,11 +69,10 @@ public class Ui {
      *
      * @param task Task object.
      */
-    public void addTask(Task task) {
-        System.out.println("\tGot it. I've added this task:\n"
-                + "\t\t" + task + "\n"
-                + "\tNow you have " + tasks.size() + " tasks in the list.\n"
-                + "\n" + END_LINE);
+    public String addTask(Task task) {
+        return "Got it. I've added this task:\n"
+                + "\t" + task + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 
     /**
@@ -84,11 +80,10 @@ public class Ui {
      *
      * @param task Task object.
      */
-    public void deleteTask(Task task) {
-        System.out.println("\tNoted. I've removed the task:\n"
-                + "\t\t" + task + "\n"
-                + "\tNow you have " + tasks.size() + " tasks in the list.\n"
-                + "\n" + END_LINE);
+    public String deleteTask(Task task) {
+        return "Noted. I've removed the task:\n"
+                + "\t" + task + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.";
     }
 
     /**
@@ -96,21 +91,20 @@ public class Ui {
      *
      * @param taskList A list of task objects.
      */
-    public void findTask(ArrayList<Task> taskList) {
-        System.out.println("\tHere are the matching tasks in your list:");
+    public String findTask(ArrayList<Task> taskList) {
+        StringBuilder message = new StringBuilder("Here are the matching tasks in your list:");
         for (int i = 0; i < taskList.size(); i++) {
             Task task = taskList.get(i);
-            System.out.println(String.format("\t%d. %s", i + 1, task.toString()));
+            message.append(String.format("\n\t%d. %s", i + 1, task.toString()));
         }
-        System.out.println(END_LINE);
+        return message.toString();
     }
 
     /**
      * Returns a clear task list message.
      */
-    public void clearList() {
+    public String clearList() {
         tasks.clear();
-        System.out.println("\tNoted. I've cleared all tasks");
-        System.out.println(Ui.END_LINE);
+        return "Noted. I've cleared all tasks";
     }
 }
