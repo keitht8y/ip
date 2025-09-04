@@ -3,6 +3,7 @@ package monarch.core;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import monarch.tasks.Task;
 
@@ -18,8 +19,8 @@ public class TaskList {
      *
      * @param taskList An array list of Tasks.
      */
-    public void set(ArrayList<Task> taskList) {
-        this.taskList = taskList;
+    public void set(Task... taskList) {
+        this.taskList = new ArrayList<>(Arrays.asList(taskList));
     }
 
     /**

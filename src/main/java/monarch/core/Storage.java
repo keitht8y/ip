@@ -32,7 +32,7 @@ public class Storage {
      *
      * @return Collection of Tasks.
      */
-    public ArrayList<Task> load() throws MonException {
+    public Task[] load() throws MonException {
         File f = new File(this.filePath);
         try {
             // Check if save file exists, create if required
@@ -82,7 +82,7 @@ public class Storage {
                 }
             }
             // Return compiled task list
-            return save;
+            return save.toArray(new Task[save.size()]);
 
         } catch (IOException e) {
             throw new MonException("Missing save file");
