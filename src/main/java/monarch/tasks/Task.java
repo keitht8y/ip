@@ -3,7 +3,7 @@ package monarch.tasks;
 /**
  * Represents a task in our chatbot.
  */
-public abstract class Task {
+public abstract class Task implements Comparable<Task> {
     private final String description;
     private boolean isDone;
     private final String type;
