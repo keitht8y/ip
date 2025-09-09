@@ -34,19 +34,24 @@ public class Storage {
      */
     public Task[] load() throws MonException {
         File f = new File(this.filePath);
+        ArrayList<Task> save = new ArrayList<>();
+        Scanner s;
+        String type;
+        String status;
+        String info;
+        Task task;
         try {
             // Check if save file exists, create if required
             f.createNewFile();
 
             // Retrieve tasks from save file
-            ArrayList<Task> save = new ArrayList<>();
-            Scanner s = new Scanner(f);
+            s = new Scanner(f);
             while (s.hasNext()) {
                 String[] i = s.nextLine().split(",,,", 3);
-                String type = i[0];
-                String status = i[1];
-                String info = i[2];
-                Task task = null;
+                type = i[0];
+                status = i[1];
+                info = i[2];
+                task = null;
 
                 switch (type) {
                 case "T":
@@ -98,9 +103,10 @@ public class Storage {
     public void save(ArrayList<Task> taskArr) throws IOException {
         FileWriter fw = new FileWriter(this.filePath);
         String tasksList = "";
+        String info;
         for (int i = 0; i < taskArr.size(); i++) {
             Task task = taskArr.get(i);
-            String info = "";
+            info = "";
 
             switch (task.getType()) {
             case "T":
@@ -125,7 +131,6 @@ public class Storage {
             String taskString = String.format("%s,,,%s,,,",
                     taskArr.get(i).getType(),
                     taskArr.get(i).getStatusIcon());
-            //System.out.println(taskString + info);
             tasksList += (taskString + info + System.lineSeparator());
         }
         fw.write(tasksList);

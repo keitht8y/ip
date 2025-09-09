@@ -29,7 +29,6 @@ public class Monarch {
         } catch (MonException e) {
             tasks.set();
         }
-        // scanObj = new Scanner(System.in);
     }
 
     /**
