@@ -9,7 +9,6 @@ import monarch.tasks.Task;
  */
 public class Ui {
     /** Used by Parser for formatting strings too, made public for other classes' access */
-    // public static final String END_LINE = "\t____________________________________________________________";
     private TaskList tasks = new TaskList();
 
     /**
@@ -33,11 +32,12 @@ public class Ui {
      */
     public String listTasks(ArrayList<Task> taskList) {
         StringBuilder message = new StringBuilder("Here are the tasks in your list:");
+        String entry;
         for (int i = 0; i < tasks.size(); i++) {
             if (tasks.get(i) == null) {
                 break;
             } else {
-                String entry = String.format("%d. %s", i + 1, tasks.get(i).toString());
+                entry = String.format("%d. %s", i + 1, tasks.get(i).toString());
                 message.append("\n").append(entry);
             }
         }
@@ -93,8 +93,9 @@ public class Ui {
      */
     public String findTask(ArrayList<Task> taskList) {
         StringBuilder message = new StringBuilder("Here are the matching tasks in your list:");
+        Task task;
         for (int i = 0; i < taskList.size(); i++) {
-            Task task = taskList.get(i);
+            task = taskList.get(i);
             message.append(String.format("\n\t%d. %s", i + 1, task.toString()));
         }
         return message.toString();
