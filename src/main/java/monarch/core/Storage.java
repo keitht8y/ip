@@ -103,10 +103,9 @@ public class Storage {
     public void save(ArrayList<Task> taskArr) throws IOException {
         FileWriter fw = new FileWriter(this.filePath);
         String tasksList = "";
-        String info;
+        String info = "";
         for (int i = 0; i < taskArr.size(); i++) {
             Task task = taskArr.get(i);
-            info = "";
 
             switch (task.getType()) {
             case "T":
@@ -125,7 +124,7 @@ public class Storage {
 
             default:
                 // Should never reach
-                break;
+                throw new IOException("FileWriter failed to be created");
             }
 
             String taskString = String.format("%s,,,%s,,,",
