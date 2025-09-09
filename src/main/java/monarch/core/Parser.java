@@ -81,6 +81,11 @@ public class Parser {
             result = this.find(ui, tasks, userInput);
             break;
 
+        case "sort":
+            /* Sort the task list */
+            result = this.sort(ui, tasks);
+            break;
+
         default:
             /* Unknown case */
             throw new MonException("That's not something I can do unfortunately ¯\\_(ツ)_/¯");
@@ -288,5 +293,15 @@ public class Parser {
         } catch (RuntimeException error) {
             throw new MonException("UH-OH: That's not a valid keyword for finding tasks.");
         }
+    }
+
+    /**
+     * Returns a sorted list of tasks, based on the type of task and date (if applicable).
+     * @param ui The instance of Ui.
+     * @param tasks The task list to display.
+     * @return A sorted list of tasks.
+     */
+    private String sort(Ui ui, TaskList tasks) {
+        return ui.sort(tasks);
     }
 }

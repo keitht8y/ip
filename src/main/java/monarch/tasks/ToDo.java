@@ -25,4 +25,20 @@ public class ToDo extends Task {
                 super.getDescription()
         ));
     }
+
+    /**
+     * Compare based on type of task, alphabetically
+     * @param other the object to be compared.
+     * @return 0, 1 or -1.
+     */
+    @Override
+    public int compareTo(Task other) {
+        if (other instanceof Event || other instanceof Deadline) {
+            return 1;
+        }
+        if (other instanceof ToDo) {
+            return this.getDescription().compareTo(other.getDescription());
+        }
+        return 1;
+    }
 }

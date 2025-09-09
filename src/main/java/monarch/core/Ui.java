@@ -1,6 +1,7 @@
 package monarch.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import monarch.tasks.Task;
 
@@ -90,6 +91,7 @@ public class Ui {
      * Returns a finding task message.
      *
      * @param taskList A list of task objects.
+     * @return The filtered list of tasks.
      */
     public String findTask(ArrayList<Task> taskList) {
         StringBuilder message = new StringBuilder("Here are the matching tasks in your list:");
@@ -107,5 +109,22 @@ public class Ui {
     public String clearList() {
         tasks.clear();
         return "Noted. I've cleared all tasks";
+    }
+
+    /**
+     * Returns a sorted task list.
+     *
+     * @param tasks A list of task objects.
+     * @return The sorted list of tasks
+     */
+    public String sort(TaskList tasks) {
+        StringBuilder message = new StringBuilder("Here are the sorted tasks in your list:");
+        Task task;
+        Collections.sort(tasks.getAll());
+        for (int i = 0; i < tasks.size(); i++) {
+            task = tasks.get(i);
+            message.append(String.format("\n\t%d. %s", i + 1, task.toString()));
+        }
+        return message.toString();
     }
 }

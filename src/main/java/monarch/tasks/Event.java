@@ -36,4 +36,31 @@ public class Event extends Task {
                 this.end
         ));
     }
+
+    /**
+     * Compare based on type of task, alphabetically or by start / end times.
+     * @param other the object to be compared.
+     * @return 0, 1 or -1.
+     */
+    @Override
+    public int compareTo(Task other) {
+        if (other instanceof ToDo || other instanceof Deadline) {
+            return -1;
+        }
+        if (other instanceof Event) {
+            Event otherEvent = (Event) other;
+            int ifEarlierStart = this.start.compareTo(otherEvent.start);
+            int ifEarlierEnd = this.end.compareTo(otherEvent.end);
+
+            // Determine which event start & ends earlier, then return that
+            if (ifEarlierStart != 0) {
+                return ifEarlierStart;
+            } else if (ifEarlierEnd != 0) {
+                return ifEarlierEnd;
+            }
+            // Else compare their descriptions
+            return this.getDescription().compareTo(other.getDescription());
+        }
+        return 1;
+    }
 }
