@@ -38,7 +38,7 @@ public class Event extends Task {
     }
 
     /**
-     * Compare based on type of task, alphabetically or by start / end times.
+     * Compares based on type of task, alphabetically or by start / end times.
      * @param other the object to be compared.
      * @return 0, 1 or -1.
      */

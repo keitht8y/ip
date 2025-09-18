@@ -36,7 +36,7 @@ public class Deadline extends Task {
     }
 
     /**
-     * Compare based on type of task, alphabetically or by end date.
+     * Compares based on type of task, alphabetically or by end date.
      * @param other the object to be compared.
      * @return 0, 1 or -1.
      */

@@ -27,7 +27,7 @@ public class ToDo extends Task {
     }
 
     /**
-     * Compare based on type of task, alphabetically
+     * Compares based on type of task, alphabetically
      * @param other the object to be compared.
      * @return 0, 1 or -1.
      */

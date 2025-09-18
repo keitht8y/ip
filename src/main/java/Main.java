@@ -9,7 +9,7 @@ import monarch.Monarch;
 import monarch.exceptions.MonException;
 
 /**
- * A GUI for Duke using FXML.
+ * A GUI for Monarch using FXML.
  */
 public class Main extends Application {
     private static final String SAVE_PATH = "./save.txt";
@@ -20,6 +20,7 @@ public class Main extends Application {
     public void start(Stage stage) {
         try {
             Main.stage = stage;
+            stage.setTitle("Monarch - The one who rules them all!");
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/MainWindow.fxml"));
             AnchorPane ap = fxmlLoader.load();
             Scene scene = new Scene(ap);

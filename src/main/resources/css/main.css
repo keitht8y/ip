@@ -1,5 +1,5 @@
 .root {
-    main-color: rgb(237, 255, 242);       /* Create a looked-up color called "main-color" within root. */
+    main-color: rgb(54, 170, 181);       /* Create a looked-up color called "main-color" within root. */
     -fx-background-color: main-color;
 }
 
@@ -14,7 +14,7 @@
 }
 
 .button:hover {
-    -fx-background-color:cyan;
+    -fx-background-color: green;
     -fx-font-size: 18px;
 }
 

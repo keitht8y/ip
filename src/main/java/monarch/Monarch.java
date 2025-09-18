@@ -7,7 +7,8 @@ import monarch.core.Ui;
 import monarch.exceptions.MonException;
 
 /**
- * Represents the main Chat bot. Is started on running the file.
+ * Represents the main Chat bot.
+ * It is started on running the file.
  */
 public class Monarch {
     private Storage storage;

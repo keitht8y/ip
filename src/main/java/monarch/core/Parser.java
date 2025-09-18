@@ -93,7 +93,7 @@ public class Parser {
     }
 
     /**
-     * Check if Parser has received a terminate command.
+     * Checks if Parser has received a terminate command.
      *
      * @return A boolean.
      */
@@ -297,6 +297,7 @@ public class Parser {
 
     /**
      * Returns a sorted list of tasks, based on the type of task and date (if applicable).
+     *
      * @param ui The instance of Ui.
      * @param tasks The task list to display.
      * @return A sorted list of tasks.

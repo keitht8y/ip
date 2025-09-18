@@ -24,7 +24,7 @@ public class TaskList {
     }
 
     /**
-     * Set an empty task list.
+     * Sets an empty task list.
      */
     public void set() {
         this.taskList = new ArrayList<Task>();
