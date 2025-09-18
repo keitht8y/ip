@@ -87,7 +87,7 @@ public class TaskList {
             fw.write("");
             fw.close();
         } catch (IOException e) {
-            System.out.println("\tUH-OH");
+            System.out.println("\tFailed to clear the task storage file: " + e.getMessage());
         }
     }
 }
