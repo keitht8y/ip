@@ -211,13 +211,13 @@ public class Parser {
         try {
             String[] args = userInput.substring(8 + 1).split(" /by ", 2);
             if (args.length == 1) {
-                throw new MonException("UH-OH: You need a end time for a deadline.");
+                throw new MonException("UH-OH: You need an end time for a deadline.");
             }
             Deadline deadlineTask = new Deadline(args[0], args[1]);
             tasks.add(deadlineTask);
             return ui.addTask(deadlineTask);
         } catch (RuntimeException error) {
-            throw new MonException("UH-OH: You need a start time & end time for an event.");
+            throw new MonException("UH-OH: You need an end time for a deadline.");
         }
     }
 
